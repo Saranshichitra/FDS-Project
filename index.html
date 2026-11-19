@@ -16,7 +16,7 @@
       <header class="visualizer-header">
         <div>
           <h1>KNN visualization</h1>
-          <p>Move the diamond, then play the steps to see how it gets an answer.</p>
+          <p id="page-description">Move the diamond, then play the steps to see how it gets an answer.</p>
         </div>
         <button class="reset-button" id="reset-button" type="button">
           <span class="reset-icon" aria-hidden="true">↻</span> Reset
@@ -27,11 +27,21 @@
         <section class="plot-panel" aria-label="KNN graph">
           <div class="plot-toolbar">
             <label for="dataset-select">Examples</label>
-            <select id="dataset-select" aria-label="Examples">
-              <option>Two groups</option>
-              <option>Overlapping groups</option>
-              <option>Three groups</option>
-            </select>
+            <div class="plot-tools">
+              <select id="dataset-select" aria-label="Examples">
+                <option>Two groups</option>
+                <option>Overlapping groups</option>
+                <option>Three groups</option>
+                <option value="pokemon">Pokémon (Fire, Water, Grass)</option>
+              </select>
+              <div class="zoom-controls" aria-label="Graph zoom controls" title="Scroll to zoom. Right click and drag to pan while zoomed.">
+                <button id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+                <output id="zoom-value" aria-live="polite">1×</output>
+                <button id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+                <button id="zoom-reset" type="button" aria-label="Reset graph zoom" title="Reset graph zoom" disabled>Reset</button>
+                <span class="zoom-hint">Right drag to pan</span>
+              </div>
+            </div>
           </div>
 
           <div class="plot-wrap">
@@ -40,7 +50,7 @@
               id="scatter"
               viewBox="0 0 720 440"
               role="application"
-              aria-label="Interactive KNN graph. Click or drag to move the white diamond. Use arrow keys to move it and plus or minus to change k."
+              aria-label="Interactive KNN graph. Click or drag to move the white diamond. Use the zoom buttons or scroll over the graph to zoom. Right click and drag to pan while zoomed. Use arrow keys to move the diamond and plus or minus to change k."
               tabindex="0"
             ></svg>
             <div class="plot-badge" id="plot-badge" aria-live="polite"></div>
@@ -85,10 +95,14 @@
             <p class="help-text">Grid steps add the sideways and up distance.</p>
           </section>
 
-          <button class="toggle-row toggle-on" id="slow-motion-toggle" type="button" role="switch" aria-checked="true">
-            <span><strong>Slow motion</strong><small id="speed-description">Steps play slowly</small></span>
-            <span class="switch" aria-hidden="true"><i></i></span>
-          </button>
+          <section class="speed-control" aria-label="Animation speed">
+            <div class="control-label">
+              <label for="speed-range">Animation speed</label>
+              <output id="speed-value" for="speed-range">1× · Normal</output>
+            </div>
+            <input class="k-slider speed-slider" id="speed-range" type="range" min="0.5" max="2" step="0.25" value="1" />
+            <div class="speed-range-labels"><span>Slow</span><span>Fast</span></div>
+          </section>
 
           <button class="toggle-row" id="regions-toggle" type="button" role="switch" aria-checked="false">
             <span><strong>Color the winning regions</strong><small>See which group wins across the graph</small></span>

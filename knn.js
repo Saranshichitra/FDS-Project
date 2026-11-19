@@ -80,14 +80,14 @@ function vote(neighbours) {
 
 // Find the winning group at each small square across the graph.
 // main.js uses these squares to color the decision regions.
-function decisionGrid(points, k, method = 'euclidean', resolution = 16) {
+function decisionGrid(points, k, method = 'euclidean', resolution = 16, view = { minX: 0, minY: 0, width: 1, height: 1 }) {
   const cells = []
 
   for (let row = 0; row < resolution; row += 1) {
     for (let column = 0; column < resolution; column += 1) {
       const testPoint = {
-        x: (column + 0.5) / resolution,
-        y: 1 - (row + 0.5) / resolution,
+        x: view.minX + (column + 0.5) / resolution * view.width,
+        y: view.minY + view.height - (row + 0.5) / resolution * view.height,
       }
       const nearest = kNearest(points, testPoint, k, method)
       const result = vote(nearest)
